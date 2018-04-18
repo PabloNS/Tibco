@@ -44,10 +44,6 @@ public class Tibco {
         return session;
     }
 
-    public Destination getDestinationSend() {
-        return destinationSend;
-    }
-
     public MessageProducer getMsgProducer() {
         return msgProducer;
     }

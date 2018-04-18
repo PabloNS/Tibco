@@ -20,12 +20,6 @@ public class Tibco {
     private MessageConsumer msgConsumer = null;
     private Destination destinationReceive = null;
 
-
-
-    public Session getSession() {
-        return session;
-    }
-
     public Tibco() throws JMSException {
         ConnectionFactory factory = new TibjmsConnectionFactory("tcp://localhost:7222");
         connection = factory.createConnection(null,null);
@@ -51,5 +45,9 @@ public class Tibco {
 
     public MessageProducer getMsgProducer() {
         return msgProducer;
+    }
+
+    public Session getSession() {
+        return session;
     }
 }
