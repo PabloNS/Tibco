@@ -15,7 +15,7 @@ import javax.jms.TextMessage;
 @RequestMapping("enel")
 public class DemoApplication {
 
-	private int messageNumber = 0;
+//	private int messageNumber = 0;
 
 //	@GetMapping
 //	public void sendTest() throws JMSException {
@@ -29,8 +29,8 @@ public class DemoApplication {
 //		tibco.getMsgProducer().send(msg);
 //	}
 
-	@Autowired
-	private Tibco tibco;
+//	@Autowired
+//	private Tibco tibco;
 
 	public static void main(String[] args) {
 		SpringApplication.run(DemoApplication.class, args);
