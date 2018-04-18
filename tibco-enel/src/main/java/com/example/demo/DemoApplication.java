@@ -11,8 +11,8 @@ import javax.jms.JMSException;
 import javax.jms.TextMessage;
 
 @SpringBootApplication
-@RestController
-@RequestMapping("enel")
+//@RestController
+//@RequestMapping("enel")
 public class DemoApplication {
 
 //	private int messageNumber = 0;

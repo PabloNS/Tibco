@@ -42,7 +42,6 @@ public class Tibco {
 
             msg = session.createTextMessage();
 
-            /* set message text */
             msg.setText("HOLA DESDE ENEL. MENSAJE RECIBIDO " + ((TextMessage)m).getText());
 
             msgProducer.send(msg);
