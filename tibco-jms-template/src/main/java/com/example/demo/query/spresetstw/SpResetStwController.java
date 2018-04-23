@@ -37,16 +37,21 @@ public class SpResetStwController {
 
     @GetMapping("/{origin}")
     public String spresetstw(@PathVariable("origin") String origin, HttpServletRequest request){
+        Long communicationId = (long)Math.random()*1000;
+        String correlationId = String.valueOf(Math.random());
         tibco.getJmsTemplate().send(DESTINATION_SEND, new MessageCreator() {
             public Message createMessage(Session session) throws JMSException {
                 SpResetStwInputDto dtoRequest = new SpResetStwInputDto(1L, origin, new Date(), "123456");
-                return session.createObjectMessage(dtoRequest);
+                Message message = session.createObjectMessage(dtoRequest);
+                message.setLongProperty("communicationId", communicationId);
+                return message;
             }
         });
 
         String message = null;
 
-        Message msg = tibco.getJmsTemplate().receive(originResponseQueues.get(origin));
+        Message msg = tibco.getJmsTemplate().receiveSelected(originResponseQueues.get(origin),
+                "JMSCorrelactionID = " + correlationId);
         if(msg instanceof TextMessage) {
             try {
                 message = ((TextMessage) msg).getText();

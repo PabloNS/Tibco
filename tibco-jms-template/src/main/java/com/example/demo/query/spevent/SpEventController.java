@@ -38,10 +38,13 @@ public class SpEventController {
 
     @GetMapping("/{origin}")
     public String spevent(@PathVariable("origin") String origin, HttpServletRequest request){
+        Long communicationId = (long)Math.random()*1000;
         tibco.getJmsTemplate().send(DESTINATION_SEND, new MessageCreator() {
             public Message createMessage(Session session) throws JMSException {
                 SpEventInputDto dtoRequest = new SpEventInputDto(1L, origin, new Date(), "123456");
-                return session.createObjectMessage(dtoRequest);
+                Message message = session.createObjectMessage(dtoRequest);
+                message.setLongProperty("communicationId", communicationId);
+                return message;
             }
         });
 

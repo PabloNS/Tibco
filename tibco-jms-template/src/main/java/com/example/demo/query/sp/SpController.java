@@ -39,10 +39,13 @@ public class SpController {
 
     @GetMapping("/{origin}")
     public String sp(@PathVariable("origin") String origin, HttpServletRequest request){
+        Long communicationId = (long)Math.random()*1000;
         tibco.getJmsTemplate().send(DESTINATION_SEND, new MessageCreator() {
             public Message createMessage(Session session) throws JMSException {
                 SpInputDto dtoRequest = new SpInputDto(1L, origin, new Date(), "123456");
-                return session.createObjectMessage(dtoRequest);
+                Message message = session.createObjectMessage(dtoRequest);
+                message.setLongProperty("communicationId", communicationId);
+                return message;
             }
         });
 

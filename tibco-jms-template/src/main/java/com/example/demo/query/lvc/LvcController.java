@@ -41,16 +41,20 @@ public class LvcController {
 
     @GetMapping("/{origin}")
     public String lvc(@PathVariable("origin") String origin, HttpServletRequest request){
+        Long communicationId = (long)Math.random()*1000;
         tibco.getJmsTemplate().send(DESTINATION_SEND, new MessageCreator() {
             public Message createMessage(Session session) throws JMSException {
                 LvcInputDto dtoRequest = new LvcInputDto(1L, origin, new Date(), "CAT", 1);
-                return session.createObjectMessage(dtoRequest);
+                Message message = session.createObjectMessage(dtoRequest);
+                message.setLongProperty("communicationId", communicationId);
+                return message;
             }
         });
 
         String message = null;
 
-        Message msg = tibco.getJmsTemplate().receive(originResponseQueues.get(origin));
+        Message msg = tibco.getJmsTemplate().receiveSelected(originResponseQueues.get(origin),
+                "communicationId = " + communicationId);
         if(msg instanceof TextMessage) {
             try {
                 message = ((TextMessage) msg).getText();

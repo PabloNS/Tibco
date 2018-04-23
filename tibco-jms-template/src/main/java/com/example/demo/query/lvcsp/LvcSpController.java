@@ -38,10 +38,13 @@ public class LvcSpController {
 
     @GetMapping("/{origin}")
     public String lvcsp(@PathVariable("origin") String origin, HttpServletRequest request){
+        Long communicationId = (long)Math.random()*1000;
         tibco.getJmsTemplate().send(DESTINATION_SEND, new MessageCreator() {
             public Message createMessage(Session session) throws JMSException {
                 LvcSpInputDto dtoRequest = new LvcSpInputDto(1L, origin, new Date(), "CAT", 1);
-                return session.createObjectMessage(dtoRequest);
+                Message message = session.createObjectMessage(dtoRequest);
+                message.setLongProperty("communicationId", communicationId);
+                return message;
             }
         });
 
