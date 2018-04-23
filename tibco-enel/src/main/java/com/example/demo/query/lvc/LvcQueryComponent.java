@@ -51,6 +51,7 @@ public class LvcQueryComponent {
                     TextMessage txtMessage = null;
                     try {
                         txtMessage = getTibco().getSession().createTextMessage(objectReceived.toString());
+                        txtMessage.setLongProperty("communicationId", message.getLongProperty("communicationId"));
                     } catch (JMSException e) {
                         e.printStackTrace();
                     }
