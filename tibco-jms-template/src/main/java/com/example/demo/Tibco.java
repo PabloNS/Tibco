@@ -13,6 +13,7 @@ public class Tibco {
 
     public Tibco() throws JMSException {
         jmsTemplate = new JmsTemplate();
+        jmsTemplate.setReceiveTimeout(1000);
         TibjmsConnectionFactory cf = new TibjmsConnectionFactory();
         cf.setServerUrl("tcp://localhost:7222");
         jmsTemplate.setConnectionFactory(cf);
